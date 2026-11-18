@@ -24,7 +24,7 @@ body{margin:0;background:var(--surround);font-family:var(--serif);color:var(--in
 .rose{position:absolute;top:0;left:0;width:78%;aspect-ratio:560/512;background:var(--rose) no-repeat center/contain;pointer-events:none}
 .rose.br{top:auto;left:auto;bottom:0;right:0;width:62%;transform:rotate(180deg); mix-blend-mode: multiply; z-index: 1;}
 .in{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;padding:clamp(190px,58vw,270px) 34px 70px}
-.in>*{animation:up .9s both;animation-delay:calc(.16s*var(--i,0))}
+.in>*{animation:up 1.4s both;animation-delay:calc(.25s*var(--i,0))}
 @keyframes up{from{opacity:0;transform:translateY(12px)}}
 .eb{margin:0;font-size:14px;font-weight:600;letter-spacing:.32em;text-transform:uppercase}
 .rule{width:72%;height:1.5px;background:var(--ink);margin:18px 0}
@@ -47,7 +47,7 @@ body{margin:0;background:var(--surround);font-family:var(--serif);color:var(--in
 a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .ov{position:fixed;inset:0;background:rgba(26,8,12,.55);opacity:0;pointer-events:none;transition:opacity .3s;z-index:5}
 .ov.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;max-width:460px;margin:0 auto;z-index:6;background:var(--paper1);color:var(--ink);border-radius:22px 22px 0 0;padding:26px 24px calc(26px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1);text-align:center}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-width:460px;margin:0 auto;z-index:6;background:var(--paper1);color:var(--ink);border-radius:22px 22px 0 0;padding:26px 24px calc(26px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .35s cubic-bezier(.2,.8,.2,1);text-align:center; max-height: 90vh; overflow-y: auto; -webkit-overflow-scrolling: touch;}
 .sheet.on{transform:none}
 .sheet h2{font:400 44px var(--script);margin:0 0 14px}
 .sheet p{margin:8px 0 14px;font-size:18px}
@@ -58,7 +58,7 @@ a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(-
 .seg button.on{background:var(--ink);color:var(--cream)}
 .sheet .btn{margin:0 auto}
 #wa{color:var(--ink);font-weight:600}
-.pt{position:fixed;top:-12vh;width:var(--s);pointer-events:none;z-index:7;animation:fall var(--d) linear both}
+.pt{position:fixed;top:-12vh;width:var(--s);pointer-events:none;z-index:0;animation:fall var(--d) linear both}
 @keyframes fall{to{transform:translate3d(var(--x),115vh,0) rotate(var(--r))}}
 @media (prefers-reduced-motion:reduce){.in>*{animation:none}.sheet,.ov{transition:none}}
 </style>
@@ -122,7 +122,7 @@ function tick(){
 }
 tick();setInterval(tick,1000);setTimeout(()=>petals(14),700);
 const sh=$("#sh"),ov=$("#ov");let yes=true;
-function open(on){sh.classList.toggle("on",on);ov.classList.toggle("on",on);sh.inert=!on;if(on)$("#nm").focus({preventScroll:true});}
+function open(on){sh.classList.toggle("on",on);ov.classList.toggle("on",on);sh.inert=!on;if(on){$("#form").hidden = false; $("#done").hidden = true; $("#err").hidden = true; const input = $("#nm"); input.focus({preventScroll: false}); input.ScrollIntoView({behavior: "smooth", block: "center"}); setTimeout(()=> {window.scrollBy({top: -500, behavior: "smooth"});},150);}}
 $("#rsvp").onclick=()=>open(true);ov.onclick=()=>open(false);
 document.addEventListener("keydown",e=>{if(e.key==="Escape")open(false)});
 document.querySelectorAll(".seg button").forEach(b=>b.onclick=()=>{
@@ -136,7 +136,7 @@ $("#go").onclick=()=>{
  const url="https://wa.me/"+WA_NUMBER+"?text="+encodeURIComponent(msg);
  $("#wa").href=url;$("#form").hidden=true;$("#done").hidden=false;
  if(yes)petals(18);
- window.open(url,"_blank","noopener");
+ window.location.href = url;
 };
 </script>
 </body>
